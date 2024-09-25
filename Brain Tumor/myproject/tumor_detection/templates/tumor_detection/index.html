@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Tumor Detection</title>
+    <style>
+        /* Body and overall layout */
+        body {
+            background-image: url('/static/background_image.svg');
+            background-size: cover; /* Change to 'contain' if needed */
+            background-repeat: no-repeat; /* Prevent repeating */
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Container for the form */
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+            margin-top: 50px;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 300px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            object-fit: contain;
+        }
+
+        input[type="file"] {
+            display: block;
+            margin: 10px auto;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        /* Flex container for sections */
+        .flex-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap; /* Ensure they wrap on smaller screens */
+        }
+
+        /* Sections styling */
+        section {
+            flex: 1; /* Allow the sections to grow */
+            background-color: #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px; /* Add some margin for spacing */
+            min-width: 250px; /* Minimum width for responsiveness */
+        }
+
+        section#how-it-works {
+            background-color: #f1f1f1;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        p, ol {
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        ol {
+            margin-left: 20px;
+        }
+        h3 {
+            align-items: center;
+            text-align: center;
+        }
+        /* Footer styling */
+        footer {
+            left: 0;
+            bottom: 0;
+            margin-bottom: 0px;
+            width: 100%;
+            color: black;
+            text-align: center;
+        }
+        footer p {
+            font-size: 170%;
+            text-align: center;
+        }
+        footer ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        footer ul li {
+            display: inline;
+            padding-left: 7%;
+            padding-right: 7%;
+            font-size: 150%;
+        }
+    </style>
+</head>
+<body> 
+    <div class="container">
+        <h1>Brain Tumor Detection</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" id="imageUpload" accept="image/*" onchange="previewImage(event)">
+            <img id="imagePreview" class="image-preview" alt="Image Preview">
+            <button type="submit">Detect</button>
+            
+            <!-- Horizontal line -->
+            <hr style="margin: 20px 0; border: 1px solid #ccc;">
+            
+            <!-- Button for choosing a random image -->
+            <h3> OR </h3>
+            <button type="button" id="chooseRandomImage" onclick="chooseRandomImage()">Choose Random Image</button>
+        </form>
+
+        {% if image_url %}
+            <img src="{{ image_url }}" class="image-preview" alt="Uploaded Image Preview">
+        {% endif %}
+    </div>
+
+    <div class="flex-container">
+        <section id="about">
+            <h2>About Brain Tumor Detection</h2>
+            <p>
+                Brain tumor detection is a critical step in diagnosing and treating brain tumors at an early stage. 
+                Using AI-based models, early detection can help improve patient outcomes.
+            </p>
+        </section>
+
+        <section id="how-it-works">
+            <h2>How It Works</h2>
+            <ol>
+                <li>Upload an image of your brain scan (MRI or CT scan).</li>
+                <li>Click the 'Detect' button.</li>
+                <li>Wait a few seconds for the result. If a tumor is detected, you will be notified immediately.</li>
+                <li>Or Choose Random Image Option.</li>
+            </ol>
+        </section>
+    </div>
+
+    <footer>
+        <p>Mini Project</p>
+        <ul>
+            <li>Urvi Joshi</li>
+            <li>Prakruti Bhavsar</li>
+            <li>Payal Gupta</li>
+        </ul>
+    </footer>
+
+    <script>
+        function previewImage(event) {
+            const image = document.getElementById('imagePreview');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        }
+    </script>
+</body>
+</html>
